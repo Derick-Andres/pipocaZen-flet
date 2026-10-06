@@ -14,8 +14,8 @@ def main(page: ft.Page) -> None:
     dados.garantir_arquivos()
 
     page.title = "PipocaZen"
-    page.window_width = 420
-    page.window_height = 760
+    page.window.width = 420
+    page.window.height = 760
     page.padding = 20
     page.bgcolor = "#FFF8F2"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
@@ -24,18 +24,31 @@ def main(page: ft.Page) -> None:
 
     usuario_logado: dict | None = None
 
+    def ajustar_layout(_e=None) -> None:
+        largura = page.width or 420
+        page.padding = min(20, largura * 0.04)
+        for controle in page.controls:
+            controle.width = min(600, max(0, largura - 2 * page.padding))
+        if _e is not None:
+            page.update()
+
+    page.on_resize = ajustar_layout
+
     def mostrar_tela(controle: ft.Control) -> None:
         page.clean()
         page.add(controle)
+        ajustar_layout()
         page.update()
 
     def mostrar_mensagem(texto: str, cor: str = "#4F8A8B") -> None:
-        page.snack_bar = ft.SnackBar(
-            content=ft.Text(texto, color="white"),
-            bgcolor=cor,
+        page.show_dialog(
+            ft.SnackBar(
+                content=ft.Text(texto, color="white"),
+                bgcolor=cor,
+                behavior=ft.SnackBarBehavior.FLOATING,
+                duration=3000,
+            )
         )
-        page.snack_bar.open = True
-        page.update()
 
     def ir_para_login() -> None:
         mostrar_tela(
@@ -119,7 +132,7 @@ def main(page: ft.Page) -> None:
             ir_para_login()
             return False
         dados.salvar_humor(usuario_logado, data_atual, humor, comentario)
-        mostrar_mensagem("Seu humor foi salvo com carinho.")
+        mostrar_mensagem("Registro de humor salvo com sucesso!")
         return True
 
     def adicionar_tarefa(titulo: str) -> tuple[bool, str]:

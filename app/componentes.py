@@ -74,9 +74,8 @@ def cartao(conteudo: list[ft.Control]) -> ft.Container:
         content=ft.Column(
             controls=conteudo,
             spacing=14,
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            horizontal_alignment=ft.CrossAxisAlignment.STRETCH,
         ),
-        width=360,
         padding=22,
         border_radius=18,
         bgcolor="#FFF4EA",

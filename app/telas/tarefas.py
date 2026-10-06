@@ -14,6 +14,8 @@ def tela_tarefas(usuario: dict, listar_tarefas, on_adicionar, on_alternar, on_ex
         checkbox = ft.Checkbox(
             value=tarefa.get("concluida", False),
             label=tarefa.get("titulo", ""),
+            label_style=ft.TextStyle(weight=ft.FontWeight.BOLD, color="#3D2C29"),
+            expand=True,
             on_change=lambda e, tarefa_id=tarefa["id"]: alternar_tarefa(
                 e, tarefa_id, bool(e.control.value)
             ),
