@@ -1,1 +1,2 @@
 flet
+pip install "flet[cli]==0.85.3
